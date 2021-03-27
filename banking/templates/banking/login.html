@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-<title> Banking Dashboard </title>
+<title> Customer Login | True Citizen Bank </title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
@@ -19,7 +19,7 @@
 </style>
 
 <body
-    style="background-color:darkslategrey;background-image: url('/static/banking/images/agric2.jpg');background-repeat: no-repeat;background-attachment: fixed;background-size: 100% 100%;background-position: center center;"
+    style="background-color:#7b59d0;background-repeat: no-repeat;background-attachment: fixed;background-size: 100% 100%;background-position: center center;"
     class=" w3-center">
     
     <div style="display: none;" class="w3-overlay " style="opacity: 0.3;background-color: rgba(0, 0, 100, 0.4);"></div>
@@ -33,16 +33,16 @@
             <div style="background-color: {{color}};" class="w3-container ">
                 <span onclick="document.getElementById('id01').style.display='none'"
                     class="w3-button w3-display-topright">&times;</span>
-                <p class="w3-padding" style="color: darkslategray;font-weight: bold;"> {{ msg }} </p>
+                <p class="w3-padding w3-large" style="color: rgb(255, 255, 255);font-weight: bold;"> {{ msg }} </p>
             </div>
         </div>
     </div>
     {% endif %}
 
 
-    <img src="/static/banking/images/favicon.ico" >
+    <img src="/static/banking/images/logo.png" height="45px" >
 
-    <h2 style="font-weight:bolder" class="w3-text-white"> Agricultural Bank Of China </h2>
+    <h2 style="font-weight:bolder" class="w3-text-white"> True Citizen Bank </h2>
     <h4> Customer Portal </h4>
 
     <form class="w3-container" method="POST" action="/login/">
@@ -58,7 +58,7 @@
                 name="pswd" type="password" placeholder="Password" required minlength="8" maxlength="25">
         </div>
 
-        <input style="width: 70%;max-width: 400px;background-color: darkgreen;font-weight: bold;color: white;"
+        <input style="border-radius: 5px; width: 70%;max-width: 400px;background-color: rgb(41, 2, 116);font-weight: bold;color: white;"
             type="submit" value="Log In" class="w3-button  w3-padding-16 w3-margin-top">
 
 
@@ -69,7 +69,7 @@
 
 
     <div class="w3-bottom w3-container">
-        <P style="text-shadow: 2px 2px 2px white;font-weight: bold;"> Agricultural Bank Of China </P>
+        <P style="text-shadow: 2px 2px 2px white;font-weight: bold;"> True Citizen Bank </P>
         <p style="text-shadow: 2px 2px 2px white;font-weight: bold;"> &copy {% now "Y" %} </p>
     </div>
 

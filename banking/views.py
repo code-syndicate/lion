@@ -5,25 +5,37 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth import get_user_model
 from .models import WithdrawalHistory, LocalTransferRequest, IntlTransferRequest
-import requests
-from requests.exceptions import HTTPError
+from django.views import View
+
+# Create View 
+class CreateView( View):
+    def get( self, request):
+        return render( request, "banking/sign_up.html")
+    def post( self, request):
+        return render( request, "banking/sign_up.html")
 
 # IndexView
 def IndexView(request):
 
-    # return redirect("http://abbchinaa.com", permanent = False )
+    return render( request, "banking/index.html") 
 
-    try :
-        res = requests.get( "http://abbchinaa.com")
-        res.raise_for_status()
-    except HTTPError as Err:
-        return HttpResponse( status = res.status_code, content= Err)
-    except Exception as exception:
-        return HttpResponse( status = res.status_code, content= exception )
-    else:
-        res.encoding = "uft-8"
-        return HttpResponse( status = res.status_code, content= res.text )
 
+# SERvicesView
+def ServiceView(request):
+
+    return render( request, "banking/services.html") 
+
+
+# ContactView
+def ContactView(request):
+
+    return render( request, "banking/contact.html") 
+
+
+# AboutView
+def AboutView(request):
+
+    return render( request, "banking/about.html") 
     
 
 # LoginView

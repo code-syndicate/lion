@@ -5,8 +5,9 @@ The `urlpatterns` list routes URLs to views. For more information please see:
 """
 from django.contrib import admin
 from django.urls import path,include
+from config import admin_site1
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('bank-admin/', admin_site1.urls ),
     path( "", include('banking.urls') )
 ]
