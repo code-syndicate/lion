@@ -26,17 +26,17 @@ Transfer History
             <table class="w3-table w3-striped w3-white">
 
                 <tr>
-                    <th> <i class="fa fa-yen w3-text-green w3-large"></i> </th>
+                    <th> <i class="fa fa-dollar w3-text-green w3-large"></i> </th>
                     <th> ID </th>
                     <th> Tx Ref </th>
-                    <th> Amount(&#165;) </th>
+                    <th> Amount(&dollar;) </th>
                     <th> Generated At </th>
                     <th> Status </th>
                 </tr>
 
                 {%   for history in histories  %}
                 <tr>
-                    <td><i class="fa fa-yen w3-text-blue w3-large"></i></td>
+                    <td><i class="fa fa-dollar w3-text-blue w3-large"></i></td>
                     <td> {{ history.id }} </td>
                     <td><i> {{ history.tx_ref | truncatechars:15 }} </i></td>
                     <td> {{ history.amount }} </td>
