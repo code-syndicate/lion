@@ -22,7 +22,7 @@
 </style>
 
 <body
-    style="background-color:darkslategrey;background-image: {% block bg_image %} url('/static/banking/images/agric2.jpg') {% endblock %} ;background-repeat: no-repeat;background-attachment: fixed;background-size: 100% 100%;background-position: center center;"
+    style="background-color:#7b59d0;background-image: {% block bg_image %} url('/static/banking/images/agric2.jpg') {% endblock %} ;background-repeat: no-repeat;background-attachment: fixed;background-size: 100% 100%;background-position: center center;"
     class="w3-light-grey">
 
 
@@ -45,11 +45,10 @@
         <button class="w3-bar-item w3-button w3-hide-large w3-hover-none w3-hover-text-light-grey"
             onclick="w3_open();"><i class="fa fa-bars"></i>  Menu</button>
 
-        <img src="/static/banking/images/favicon.ico" class="w3-right" style="background-color: white;">
-        <span style="font-weight: bolder;" class="w3-bar-item w3-right w3-text-green w3-large w3-hide-small">
+        <img src="/static/banking/images/logo.png" height="40px" class="w3-right" style="background-color:transparent;color:white">
+        <span style="font-weight: bolder;" class="w3-bar-item w3-right w3-text-white w3-large w3-hide-small">
 
-            Agricultural Bank Of
-            China </span>
+            True Citizen Bank  </span>
     </div>
 
     <!-- Sidebar/menu -->
@@ -151,7 +150,7 @@
                     <div class="w3-clear"></div>
                     <p class="w3-opacity"> Savings Account </p>
                     <h4 style="font-weight: bold;font-size: 1rem;font-family: monospace;">
-                        {{request.user.account.account_number}} </h4>
+                        {{request.user.account.account_number | truncatechars:20 }} </h4>
                 </div>
             </div>
             <div class="w3-half">
@@ -231,8 +230,8 @@
 
         <!-- Footer -->
         <footer class="w3-container w3-padding-16 w3-blue">
-            <h4> AGRICULTURAL BANK OF CHINA </h4>
-            <p> &copy <a href="https://www.w3schools.com/w3css/default.asp" target="_blank"> {% now "Y" %} </a></p>
+            <h4> TRUE CITIZEN BANK </h4>
+            <p> &copy <a href="#" target="_blank"> {% now "Y" %} </a></p>
         </footer>
 
         <!-- End page content -->

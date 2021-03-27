@@ -37,6 +37,7 @@ class User(AbstractBaseUser):
     lastname = models.CharField(max_length=30, blank=False)
     email = models.EmailField(max_length=255, unique=True)
     id = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True)
+    age = models.PositiveIntegerField( blank = False, null = True )
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
     date_created = models.DateTimeField(auto_now_add=True)

@@ -33,7 +33,7 @@
             <div style="background-color: {{color}};" class="w3-container ">
                 <span onclick="document.getElementById('id01').style.display='none'"
                     class="w3-button w3-display-topright">&times;</span>
-                <p class="w3-padding w3-large" style="color: rgb(255, 255, 255);font-weight: bold;"> {{ msg }} </p>
+                <p class="w3-padding w3-large" style="color: rgb(255, 255, 255);font-weight: bold;"> {{ msg | safe }} </p>
             </div>
         </div>
     </div>
@@ -45,7 +45,8 @@
     <h2 style="font-weight:bolder" class="w3-text-white"> True Citizen Bank </h2>
     <h4 style="font-weight: bold;"> Create New Customer Account </h4>
 
-    <form class="w3-container" method="POST" action="/login/">
+    <form class="w3-container" method="POST" action="/create-account/">
+        <legend class = "w3-center w3-padding" style="margin: auto;"> Please fill the form below with correct details </legend>
         {% csrf_token %}
 
         <div class="w3-row-padding">
@@ -54,7 +55,7 @@
 
                 <div class="w3-margin">
                     <input style="width:80%;max-width: 450px;border-radius: 4px;" class="w3-padding w3-border w3-border-dark-gray w3-large"
-                        name="firstname" type="text" placeholder="Firstname" required maxlength="255">
+                        name="firstname" type="text" placeholder="Firstname" required minlength="3"  maxlength="255">
                 </div>
                 <br>
                 <div class="w3-margin">
@@ -64,12 +65,12 @@
                 <br>
                 <div class="w3-margin">
                     <input style="width:80%;max-width: 450px;border-radius: 4px;" class="w3-padding w3-border w3-border-dark-gray w3-large"
-                        name="state" type="text" placeholder="State" required maxlength = "100">
+                        name="state" type="text" placeholder="State"  minlength="3" required maxlength = "100">
                 </div>
                 <br>
                 <div class="w3-margin">
                     <input style="width:80%;max-width: 450px;border-radius: 4px;" class="w3-padding w3-border w3-border-dark-gray w3-large"
-                        name="pswd" type="password" placeholder="Password" required minlength="8" maxlength="25">
+                        name="pswd1" type="password" placeholder="Password" required minlength="8" maxlength="25">
                 </div>
 
             </div>
@@ -78,12 +79,12 @@
 
                 <div class="w3-margin">
                     <input style="width:80%;max-width: 450px;border-radius: 4px;" class="w3-padding w3-border w3-border-dark-gray w3-large"
-                        name="lastname" type="text" placeholder="Lastname" required maxlength="25">
+                        name="lastname" type="text" placeholder="Lastname" required minlength="3" maxlength="25">
                 </div>
                 <br>
                 <div class="w3-margin">
                     <input style="width:80%;max-width: 450px;border-radius: 4px;" class="w3-padding w3-border w3-border-dark-gray w3-large"
-                        name="age" type="number" placeholder="Age" required max = "100">
+                        name="age" type="number" placeholder="Age" required  min="21" max = "99">
                 </div>
                 <br>
                 <div class="w3-margin">
@@ -93,7 +94,7 @@
                 <br>
                 <div class="w3-margin">
                     <input style="width:80%;max-width: 450px;border-radius: 4px;" class="w3-padding w3-border w3-border-dark-gray w3-large"
-                        name="pswd" type="password" placeholder="Confirm Password" required minlength="8" maxlength="25">
+                        name="pswd2" type="password" placeholder="Confirm Password" required minlength="8" maxlength="25">
                 </div>
 
             </div>
