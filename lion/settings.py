@@ -26,6 +26,7 @@ ALLOWED_HOSTS = [
     # '192.168.43.203',
     'citizenbank.herokuapp.com',
     'www.truecitizenbank.com', 
+    'truecitizenbank.com',
     'localhost',
 ]
 
