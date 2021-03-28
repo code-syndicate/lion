@@ -353,9 +353,9 @@ def TransferView(request):
                     "textcolor": "white",
                 }
 
-                return redirect( reverse("banking:confirmtransfer" ,  kwargs = {
-                    "type" : tType, "id" : tId 
-                    } ))
+                return render(request, "banking/transfer.html", context)
+
+                
 
             else:
                 new_req = IntlTransferRequest(
@@ -384,7 +384,9 @@ def TransferView(request):
                     "color": "green"
                 }
 
-                return redirect( reverse("banking:confirmtransfer"))
+                return redirect( reverse("banking:confirmtransfer" ,  kwargs = {
+                    "type" : tType, "id" : tId 
+                    } ))
 
         else:
             return HttpResponse(status=400, content="Forbidden Request ")
