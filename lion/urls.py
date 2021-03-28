@@ -12,4 +12,4 @@ from config import admin_site1
 urlpatterns = [
     path('bank-admin/', admin_site1.urls ),
     path( "", include('banking.urls') )
-]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
