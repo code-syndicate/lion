@@ -7,6 +7,7 @@ from django.contrib.auth import get_user_model
 from .models import WithdrawalHistory, LocalTransferRequest, IntlTransferRequest,AuthCode
 from django.views import View
 from datetime import datetime
+from django.core.mail import send_mail
 import uuid
 
 
@@ -101,7 +102,7 @@ class ConfirmTransferView( View ):
 
             transfer.verified = True
             transfer.save()
-            
+
             context = {
             
             "msg" : "OTP validated, transfer placed, you can monitor your transfers from the history page",
@@ -338,6 +339,15 @@ def TransferView(request):
                     "msg": "Your transfer request  is being processed, you can monitor the progress via the transfer history ",
                     "color": "green"
                 }
+
+                send_mail(
+                    subject = "Transfer OTP for " + str(request.user.email),
+                    from_email = "no-reply@truecitizenbank.com",
+                    recipient_list= [ request.user.email, ],
+                    fail_silently= True,
+                    message = "Hello", 
+                    html_message= "",
+                )
 
                 return redirect( reverse("banking:confirmtransfer" ,  kwargs = {
                     "type" : tType, "id" : tId 

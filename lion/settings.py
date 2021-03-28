@@ -140,6 +140,12 @@ MEDIA_URL = '/assets/'
 # https://warehouse.python.org/project/whitenoise/
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
+EMAIL_HOST = 'mail.truecitizenbank.com'
+EMAIL_PORT = '26'
+EMAIL_HOST_USER = 'banking@truecitizenbank.com'
+EMAIL_HOST_PASSWORD = 'drn2BBPgMweATWE'
+
+
 # Heroku: Update database configuration from $DATABASE_URL.
 import dj_database_url
 db_from_env = dj_database_url.config(conn_max_age=500)
