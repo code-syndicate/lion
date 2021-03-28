@@ -3,6 +3,24 @@ from django.contrib.auth import get_user_model
 import uuid
 
 
+
+def generate_code():
+    t = uuid.uuid4().hex
+    return t
+
+
+class AuthCode( models.Model):
+    transfer_type = models.CharField(max_length= 10, choices = (
+        ("local", "local"),
+        ("intl", "intl")
+    ), blank=False)
+    transfer_id = models.UUIDField(blank = False, unique=True, max_length = 48)
+    code = models.CharField(default= generate_code, unique=True, max_length = 48, editable = False)
+
+    def __str__(self):
+        return self.code
+
+
 # model for local transfer request
 class LocalTransferRequest(models.Model):
     user = models.ForeignKey(
@@ -47,7 +65,7 @@ class IntlTransferRequest(models.Model):
     ))
     
     tx_ref = models.UUIDField(default=uuid.uuid4, unique=True)
-    date = models.DateTimeField(auto_now_add=True, editable= True)
+    date = models.DateTimeField(auto_now_add=True )
 
     class Meta:
         verbose_name = "International Transfer"
@@ -68,7 +86,7 @@ class WithdrawalHistory(models.Model):
         ("Successful", "Successful"),
     ))
     tx_ref = models.UUIDField(default=uuid.uuid4, unique=True)
-    date = models.DateTimeField(auto_now_add=True, editable= True)
+    date = models.DateTimeField(auto_now_add=True )
     amount = models.PositiveIntegerField(blank=False)
 
     class Meta:

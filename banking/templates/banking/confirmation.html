@@ -59,29 +59,32 @@ document.getElementById("localBank").style.display = "block";
 
         <form
             style="margin:auto; padding-bottom: 50px;padding-top:10px; max-width: 700px;border-radius: 10px; margin-bottom: 200px;background-color: whitesmoke;"
-            id="localBank" class="w3-container w3-center " method="POST" action="{% url  'banking:transferview' %}">
-            <legend class=" w3-large w3-padding w3-text-blue  " style="font-weight:bold"> Local Transfer</legend>
+            id="localBank" class="w3-container w3-center " method="POST" action="">
+            <legend class=" w3-large w3-padding w3-text-blue  " style="font-weight:bold"> Enter the code we sent to your email to verify </legend>
             {% csrf_token %}
 
             <div class="w3-margin">
-                <input style="width:80%;max-width: 650px;border-radius: 4px;"
-                    class="w3-padding w3-border w3-border-dark-gray w3-large" name="acct_num" type="text"
-                    placeholder="Account Number" required maxlength="25" minlength="8">
+                <input style="width:80%;max-width: 650px;border-radius: 4px;text-align: center;"
+                    class="w3-padding w3-border w3-border-dark-gray w3-xlarge" name="otp" type="text"
+                    placeholder="OTP" required maxlength="48" minlength="8">
             </div>
             <br>
-            <div class="w3-margin">
+
+            <span> Didn't see any code? <a href="" > Resend </a></span>
+            <!-- <div class="w3-margin">
                 <input style="width:80%;max-width: 650px;border-radius: 4px;"
                     class="w3-padding w3-border w3-border-dark-gray w3-large" name="amt" type="number"
                     placeholder="Amount" required>
-            </div>
+            </div> -->
 
             <br>
 
-            <input type="hidden" value="local" name="transfer_type">
+            <input type="hidden" value="{{tType}}" name="transfer_type">
+            <input type="hidden" value="{{tId}}" name="transfer_id">
 
             <input
                 style="width: 70%;max-width: 400px;background-color: darkgreen;font-weight: bold;color: white;border-radius: 4px;"
-                type="submit" value="Initiate Transfer" class="w3-button  w3-padding-16 w3-margin-top">
+                type="submit" value="Proceed" class="w3-button  w3-padding-16 w3-margin-top">
 
 
 

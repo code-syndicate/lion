@@ -1,10 +1,10 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect,reverse
 from django.http import HttpResponse
 from .models import UserBankAccount
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth import get_user_model
-from .models import WithdrawalHistory, LocalTransferRequest, IntlTransferRequest
+from .models import WithdrawalHistory, LocalTransferRequest, IntlTransferRequest,AuthCode
 from django.views import View
 from datetime import datetime
 import uuid
@@ -16,6 +16,104 @@ def generate_account_number():
     token = uuid.uuid4().int
     # print( token )
     return token
+
+
+
+class ConfirmTransferView( View ):
+    def get(self, request, type ,  id ):
+        
+
+        context = {
+            'tId' : id,
+            'tType' : type,
+        }
+        # print( "hello pple")
+        return render(request, "banking/confirmation.html", context)
+
+    def post(self, request , type = None, id = None):
+        data = request.POST
+
+        otp = data.get("otp", None)
+        transfer_id = data.get("transfer_id", None)
+        transfer_type = data.get("transfer_type", None)
+
+        if otp is None or transfer_type is None or transfer_id is None:
+            context = {
+            
+            "msg" : "Please enter the OTP sent to your mail",
+            "color" : "yellow",
+        }
+            return render(request, "banking/confirmation.html", context)
+
+        otp = str(otp.strip())
+        transfer_id = str(transfer_id.strip())
+        transfer_type = str(transfer_type.strip())
+
+        print( "\n\nOTP ENTERED ", otp, "\n\n")
+
+        # auth part information 
+          
+        auth = None 
+        try:
+            auth = AuthCode.objects.get( code = otp )
+        except AuthCode.DoesNotExist:
+            context = {
+            
+            "msg" : "The  OTP you entered is invalid",
+            "color" : "red",
+        }
+            return render(request,"banking/confirmation.html", context)
+        else:
+            pass
+
+
+        # lets continue 
+        # Get the particular transfer pointed by the id and type 
+        transfer = None
+
+        if transfer_type == "local":
+            try:
+                transfer = LocalTransferRequest.objects.get( tx_ref = transfer_id)
+            except LocalTransferRequest.DoesNotExist:
+                pass
+            else:
+                pass
+        elif transfer_type == "intl":
+            try:
+                transfer = IntlTransferRequest.objects.get( tx_ref = transfer_id)
+            except IntlTransferRequest.DoesNotExist:
+                pass
+            else:
+                pass
+        
+        if transfer is None:
+            context = {
+            
+            "msg" : "Invalid Reference Code",
+            "color" : "red",
+        }
+            return render(request,"banking/confirmation.html", context)
+
+        elif auth.transfer_id == transfer.tx_ref:
+            context = {
+            
+            "msg" : "OTP validated, transfer placed, you can monitor your transfers from the history page",
+            "color" : "green",
+        }
+            return redirect( "/user/dashboard/" , kwargs = context)
+            
+        else:
+            context = {
+            
+            "msg" : "Invalid OTP",
+            "color" : "red",
+        }
+            return render(request,"banking/confirmation.html", context)
+
+
+
+        
+
 
 
 # Create View
@@ -199,6 +297,7 @@ def TransferView(request):
         data = request.POST
 
         tType = data.get("transfer_type", None)
+        tId = None
 
         if tType is None:
             return HttpResponse(status=400)
@@ -221,12 +320,21 @@ def TransferView(request):
                     user=request.user,  account_number=acct_num, amount=amt)
                 new_req.save()
 
+                tId = new_req.tx_ref
+
+                # generate verification code for transfer 
+                new_code = AuthCode.objects.create( transfer_type = "local", transfer_id= tId)
+                new_code.save()
+                print("\n\n\nYour OTP is ", new_code.code )
+
                 context = {
                     "msg": "Your transfer request  is being processed, you can monitor the progress via the transfer history ",
                     "color": "green"
                 }
 
-                return render(request, "banking/dashboard.html", context)
+                return redirect( reverse("banking:confirmtransfer" ,  kwargs = {
+                    "type" : tType, "id" : tId 
+                    } ))
 
         elif tType == "Intl":
             acct_num = data.get("acct_num", None)
@@ -245,7 +353,9 @@ def TransferView(request):
                     "textcolor": "white",
                 }
 
-                return render(request, "banking/dashboard.html", context)
+                return redirect( reverse("banking:confirmtransfer" ,  kwargs = {
+                    "type" : tType, "id" : tId 
+                    } ))
 
             else:
                 new_req = IntlTransferRequest(
@@ -262,12 +372,19 @@ def TransferView(request):
 
                 new_req.save()
 
+                tId = new_req.tx_ref
+
+                # generate verification code for transfer 
+                new_code = AuthCode.objects.create( transfer_type = "intl", transfer_id= tId)
+                new_code.save()
+                print("\n\n\nYour OTP is ", new_code.code )
+
                 context = {
                     "msg": "Your transfer request  is being processed, you can monitor the progress via the transfer history ",
                     "color": "green"
                 }
 
-                return render(request, "banking/dashboard.html", context)
+                return redirect( reverse("banking:confirmtransfer"))
 
         else:
             return HttpResponse(status=400, content="Forbidden Request ")

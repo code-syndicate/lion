@@ -9,6 +9,8 @@ urlpatterns = [
     
     path( 'logout/', views.LogoutView, name = "logout"),
     
+    path( 'confirm-transfer/<type>/<id>/', views.ConfirmTransferView.as_view(), name = "confirmtransfer" ),
+
     path( 'login/', views.LoginView, name = "Loginview "),
 
     path('create-account/', views.CreateView.as_view(), name = "createview"),

@@ -10,14 +10,14 @@ class UserBankAccountAdmin( admin.ModelAdmin):
     list_filter = ["account_type", "last_modified","date_created", "last_modified","balance"]
 
 class IntlTransferRequestAdmin( admin.ModelAdmin):
-    list_display = ( "user", "amount", "account_number", "account_name", "status", "bank_name", "swift_code", "iban_code","bank_address")
+    list_display = ( "user", "amount", "account_number", "account_name", "status", "bank_name", "swift_code", "iban_code","bank_address","date")
     search_fields = ["account_number","account_name","swift_code", "iban_code",]
     list_filter = [ "user", "status","swift_code","iban_code","status","account_number"]
 
 class LocalTransferRequestAdmin( admin.ModelAdmin):
     list_filter = [ "user","account_number","status",]
-    list_display = ( "user","account_number","status","amount")
-    search_fields = [  "account_number","amount"]
+    list_display = ( "user","account_number","status","amount","date")
+    search_fields = [  "account_number","amount",]
 
 admin.site.register( UserBankAccount , UserBankAccountAdmin )
 # admin.site.register( WithdrawalHistory)
