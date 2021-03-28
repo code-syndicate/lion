@@ -68,9 +68,16 @@ document.getElementById("localBank").style.display = "block";
                     class="w3-padding w3-border w3-border-dark-gray w3-xlarge" name="otp" type="text"
                     placeholder="OTP" required maxlength="48" minlength="8">
             </div>
+
+            
+
+            <input type="hidden" value= "{{tType}}" name="transfer_type" >
+            
+            <input type="hidden" value= "{{tId}}" name="transfer_id" >
+
             <br>
 
-            <span> Didn't see any code? <a href="" > Resend </a></span>
+            <span> Didn't see any code? <a href="" > Resend  </a></span>
             <!-- <div class="w3-margin">
                 <input style="width:80%;max-width: 650px;border-radius: 4px;"
                     class="w3-padding w3-border w3-border-dark-gray w3-large" name="amt" type="number"
@@ -78,9 +85,6 @@ document.getElementById("localBank").style.display = "block";
             </div> -->
 
             <br>
-
-            <input type="hidden" value="{{tType}}" name="transfer_type">
-            <input type="hidden" value="{{tId}}" name="transfer_id">
 
             <input
                 style="width: 70%;max-width: 400px;background-color: darkgreen;font-weight: bold;color: white;border-radius: 4px;"

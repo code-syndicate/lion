@@ -34,11 +34,22 @@ class LocalTransferRequest(models.Model):
     ))
     
     tx_ref = models.UUIDField(default=uuid.uuid4, unique=True)
+    verified = models.BooleanField(default=False)
     date = models.DateTimeField(auto_now_add=True, editable=False)
 
     class Meta:
         verbose_name_plural = "Local Transfers"
         verbose_name = "Local Transfer "
+
+    @property
+    def type(self):
+        return "Local"
+
+    @property
+    def state(self):
+        if self.verified:
+            return "verified"
+        return "Pending Verification"
 
     def __str__(self):
         return self.user.get_full_name() + " transfer request " + str(self.id)
@@ -57,6 +68,7 @@ class IntlTransferRequest(models.Model):
     iban_code = models.CharField(max_length=32)
     bank_address = models.CharField(max_length=128)
     bank_name = models.CharField(max_length=128)
+    verified = models.BooleanField(default=False)
     amount = models.PositiveIntegerField(blank=False)
     status = models.CharField(max_length=35, default= "Pending",  choices=(
         ("Successful", "Successful"),
@@ -73,6 +85,17 @@ class IntlTransferRequest(models.Model):
 
     def __str__(self):
         return self.user.get_full_name() + "   intl transfer request " + str(self.id)
+    
+    @property
+    def type(self):
+        return "International"
+
+
+    @property
+    def state(self):
+        if self.verified:
+            return "Verified"
+        return "Pending Verification"
 
 # model for withdrawals
 

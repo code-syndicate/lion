@@ -23,24 +23,29 @@ Transfer History
         {% endif %}
 
             <h5> Transfers </h5>
-            <table class="w3-table w3-striped w3-white">
+            <table class="w3-table w3-striped w3-white w3-centered">
 
                 <tr>
                     <th> <i class="fa fa-dollar w3-text-green w3-large"></i> </th>
                     <th> ID </th>
+                    <th> Type </th>
                     <th> Tx Ref </th>
                     <th> Amount(&dollar;) </th>
                     <th> Generated At </th>
+                    <th> Verification State </th>
                     <th> Status </th>
+                    
                 </tr>
 
                 {%   for history in histories  %}
                 <tr>
                     <td><i class="fa fa-dollar w3-text-blue w3-large"></i></td>
                     <td> {{ history.id }} </td>
+                    <td> {{history.type }} </td>
                     <td><i> {{ history.tx_ref | truncatechars:15 }} </i></td>
                     <td> {{ history.amount }} </td>
                     <td><i> {{ history.date.date }}, {{ hsitory.date.time }} </i></td>
+                    <td> {{history.state }} </td>
                     <td> <i style="font-weight: bolder;font-size: 1rem;color:grey"> {{ history.status }} </i></td>
                 </tr>
                 {% endfor %}

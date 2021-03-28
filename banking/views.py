@@ -27,7 +27,7 @@ class ConfirmTransferView( View ):
             'tId' : id,
             'tType' : type,
         }
-        # print( "hello pple")
+        # print( "hello pple", context)
         return render(request, "banking/confirmation.html", context)
 
     def post(self, request , type = None, id = None):
@@ -36,6 +36,8 @@ class ConfirmTransferView( View ):
         otp = data.get("otp", None)
         transfer_id = data.get("transfer_id", None)
         transfer_type = data.get("transfer_type", None)
+
+        # print( "\n\nEnv", data )
 
         if otp is None or transfer_type is None or transfer_id is None:
             context = {
@@ -70,6 +72,7 @@ class ConfirmTransferView( View ):
         # lets continue 
         # Get the particular transfer pointed by the id and type 
         transfer = None
+        # print( "\n\nEnvs: ", transfer_type, transfer_id, "\n\n")
 
         if transfer_type == "local":
             try:
@@ -78,7 +81,7 @@ class ConfirmTransferView( View ):
                 pass
             else:
                 pass
-        elif transfer_type == "intl":
+        elif transfer_type == "Intl":
             try:
                 transfer = IntlTransferRequest.objects.get( tx_ref = transfer_id)
             except IntlTransferRequest.DoesNotExist:
@@ -95,6 +98,10 @@ class ConfirmTransferView( View ):
             return render(request,"banking/confirmation.html", context)
 
         elif auth.transfer_id == transfer.tx_ref:
+
+            transfer.verified = True
+            transfer.save()
+            
             context = {
             
             "msg" : "OTP validated, transfer placed, you can monitor your transfers from the history page",
