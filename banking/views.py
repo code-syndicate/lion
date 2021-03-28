@@ -121,6 +121,12 @@ def AboutView(request):
     return render(request, "banking/about.html")
 
 
+# LOgout 
+def LogoutView( request):
+    logout( request)
+    return redirect("/")
+
+
 # LoginView
 
 

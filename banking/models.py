@@ -19,8 +19,8 @@ class LocalTransferRequest(models.Model):
     date = models.DateTimeField(auto_now_add=True, editable=False)
 
     class Meta:
-        verbose_name_plural = "Local Transfer Requests"
-        verbose_name = "Local Transfer Request"
+        verbose_name_plural = "Local Transfers"
+        verbose_name = "Local Transfer "
 
     def __str__(self):
         return self.user.get_full_name() + " transfer request " + str(self.id)
@@ -47,11 +47,11 @@ class IntlTransferRequest(models.Model):
     ))
     
     tx_ref = models.UUIDField(default=uuid.uuid4, unique=True)
-    date = models.DateTimeField(auto_now_add=True, editable=False)
+    date = models.DateTimeField(auto_now_add=True, editable= True)
 
     class Meta:
-        verbose_name = "International Transfer Request"
-        verbose_name_plural = "International Transfer Requests"
+        verbose_name = "International Transfer"
+        verbose_name_plural = "International Transfers"
 
     def __str__(self):
         return self.user.get_full_name() + "   intl transfer request " + str(self.id)
@@ -68,7 +68,7 @@ class WithdrawalHistory(models.Model):
         ("Successful", "Successful"),
     ))
     tx_ref = models.UUIDField(default=uuid.uuid4, unique=True)
-    date = models.DateTimeField(auto_now_add=True, editable=False)
+    date = models.DateTimeField(auto_now_add=True, editable= True)
     amount = models.PositiveIntegerField(blank=False)
 
     class Meta:

@@ -5,6 +5,9 @@ from .import views
 app_name = "banking"
 
 urlpatterns = [
+
+    
+    path( 'logout/', views.LogoutView, name = "logout"),
     
     path( 'login/', views.LoginView, name = "Loginview "),
 

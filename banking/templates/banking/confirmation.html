@@ -1,0 +1,106 @@
+{% extends "banking/dashboard.html" %}
+
+{% block title %}
+<title> confirm transfer  </title>
+{% endblock %}
+
+{% block bg_image %}
+linear-gradient( dodgerblue, lightblue)
+{% endblock %}
+
+
+{% block page_title %}
+Transfer to bank
+{% endblock %}
+
+{% block transfer %}
+{% endblock %}
+
+
+
+{% block script %}
+
+function switchToIntl(){
+document.getElementById("intlBank").style.display = "block";
+document.getElementById("localBank").style.display = "none";
+
+}
+
+function switchToLocal(){
+document.getElementById("intlBank").style.display = "none";
+document.getElementById("localBank").style.display = "block";
+}
+
+
+//open or close the sublist for transfer
+        function switchList() {
+            d = document.getElementById("tlist")
+            caret = document.getElementById("caret_")
+            // alert(d.style.display)
+            if (d.style.display == "block") {
+                d.style.display = "none"
+                caret.className = "fa fa-caret-down fa-2x fa-fw w3-right"
+            } else {
+                
+                caret.className = "fa fa-caret-up fa-2x fa-fw w3-right"
+                d.style.display = "block"
+            }
+        }
+
+
+{% endblock script %}
+
+{% block history %}
+<div class="w3-row-padding w3-margin ">
+
+    <div class="w3-col s12 w3-center">
+
+        <img src="/static/banking/images/logo.png" height="50px"  style="padding-bottom: 20px;">
+
+        <form
+            style="margin:auto; padding-bottom: 50px;padding-top:10px; max-width: 700px;border-radius: 10px; margin-bottom: 200px;background-color: whitesmoke;"
+            id="localBank" class="w3-container w3-center " method="POST" action="{% url  'banking:transferview' %}">
+            <legend class=" w3-large w3-padding w3-text-blue  " style="font-weight:bold"> Local Transfer</legend>
+            {% csrf_token %}
+
+            <div class="w3-margin">
+                <input style="width:80%;max-width: 650px;border-radius: 4px;"
+                    class="w3-padding w3-border w3-border-dark-gray w3-large" name="acct_num" type="text"
+                    placeholder="Account Number" required maxlength="25" minlength="8">
+            </div>
+            <br>
+            <div class="w3-margin">
+                <input style="width:80%;max-width: 650px;border-radius: 4px;"
+                    class="w3-padding w3-border w3-border-dark-gray w3-large" name="amt" type="number"
+                    placeholder="Amount" required>
+            </div>
+
+            <br>
+
+            <input type="hidden" value="local" name="transfer_type">
+
+            <input
+                style="width: 70%;max-width: 400px;background-color: darkgreen;font-weight: bold;color: white;border-radius: 4px;"
+                type="submit" value="Initiate Transfer" class="w3-button  w3-padding-16 w3-margin-top">
+
+
+
+
+
+        </form>
+
+
+
+
+
+
+
+        
+    </div>
+
+
+</div>
+
+
+
+{% endblock history %}
