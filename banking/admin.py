@@ -11,7 +11,7 @@ class UserBankAccountAdmin(admin.ModelAdmin):
 
 
 class IntlTransferRequestAdmin(admin.ModelAdmin):
-    list_display = ("user","date_initiated", "amount", "account_number", "account_name", "status",
+    list_display = ("user", "amount", "account_number", "account_name", "status",
                     "bank_name", "swift_code", "iban_code", "bank_address", "date")
     search_fields = ["account_number",
                      "account_name", "swift_code", "iban_code", ]
@@ -21,7 +21,7 @@ class IntlTransferRequestAdmin(admin.ModelAdmin):
 
 class LocalTransferRequestAdmin(admin.ModelAdmin):
     list_filter = ["user", "account_number", "status", ]
-    list_display = ("user", "date_initiated", "account_number",
+    list_display = ("user", "account_number",
                     "status", "amount", "date")
     search_fields = ["account_number", "amount", ]
 
