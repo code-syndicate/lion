@@ -3,19 +3,19 @@ from django.contrib.auth import get_user_model
 import uuid
 
 
-
 def generate_code():
     t = uuid.uuid4().hex
     return t
 
 
-class AuthCode( models.Model):
-    transfer_type = models.CharField(max_length= 10, choices = (
+class AuthCode(models.Model):
+    transfer_type = models.CharField(max_length=10, choices=(
         ("local", "local"),
         ("intl", "intl")
     ), blank=False)
-    transfer_id = models.UUIDField(blank = False, unique=True, max_length = 48)
-    code = models.CharField(default= generate_code, unique=True, max_length = 48, editable = False)
+    transfer_id = models.UUIDField(blank=False, unique=True, max_length=48)
+    code = models.CharField(default=generate_code,
+                            unique=True, max_length=48, editable=False)
 
     def __str__(self):
         return self.code
@@ -27,7 +27,7 @@ class LocalTransferRequest(models.Model):
         get_user_model(), related_name="transfer_requests", on_delete=models.CASCADE)
     account_number = models.CharField(max_length=35, blank=False, )
     amount = models.PositiveIntegerField(blank=False)
-    status = models.CharField(max_length=25, default= "Pending", choices=(
+    status = models.CharField(max_length=25, default="Pending", choices=(
         ("Pending", "Pending"),
         ("Cancelled", "Cancelled"),
         ("Successful", "Successful"),
@@ -42,7 +42,7 @@ class LocalTransferRequest(models.Model):
 
     tx_ref = models.UUIDField(default=uuid.uuid4, unique=True)
     verified = models.BooleanField(default=False)
-    date = models.DateTimeField(auto_now_add=True )
+    date = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         verbose_name_plural = "Local Transfers"
@@ -84,16 +84,17 @@ class IntlTransferRequest(models.Model):
     bank_name = models.CharField(max_length=128)
     verified = models.BooleanField(default=False)
     amount = models.PositiveIntegerField(blank=False)
-    status = models.CharField(max_length=35, default= "Pending",  choices=(
+    status = models.CharField(max_length=35, default="Pending",  choices=(
         ("Successful", "Successful"),
         ("Pending", "Pending"),
         ("Cancelled", "Cancelled")
     ))
 
     tx_ref = models.UUIDField(default=uuid.uuid4, unique=True)
-    date = models.DateTimeField(auto_now_add=True )
-    date_initiated = models.DateTimeField(auto_now_add=True, verbose_name = 'Date Initiated', null=True)
-    transaction_type = models.CharField(max_length = 25, default = 'debit', verbose_name = 'Transaction type', choices = (
+    date = models.DateTimeField(auto_now_add=True)
+    date_initiated = models.DateTimeField(
+        auto_now_add=True, verbose_name='Date Initiated', null=True)
+    transaction_type = models.CharField(max_length=25, default='debit', verbose_name='Transaction type', choices=(
         ('credit', 'Credit'),
         ('debit', "Debit"),
     ))
@@ -109,6 +110,12 @@ class IntlTransferRequest(models.Model):
     def type(self):
         return "International"
 
+    @property
+    def get_date(self):
+        if self.date:
+            return self.date
+        else:
+            return self.date_initiated
 
     @property
     def state(self):
@@ -128,7 +135,7 @@ class WithdrawalHistory(models.Model):
         ("Successful", "Successful"),
     ))
     tx_ref = models.UUIDField(default=uuid.uuid4, unique=True)
-    date = models.DateTimeField(auto_now_add=True )
+    date = models.DateTimeField(auto_now_add=True)
     amount = models.PositiveIntegerField(blank=False)
 
     class Meta:
