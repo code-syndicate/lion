@@ -44,7 +44,7 @@ Transfer History
                     <td> {{ history.id }} </td>
                     <td> {{history.type }} </td>
                     <td><i> {{ history.tx_ref | truncatechars:15 }} </i></td>
-                    <td> {{ history.transaction_type}} </td>
+                    <td> {{ history.transaction_type | capitalize }} </td>
                     <td> {{ history.amount }} </td>
                     <td><i> {{ history.get_date.date }}, {{ hsitory.get_date.time }} </i></td>
                     <td> {{history.state }} </td>
