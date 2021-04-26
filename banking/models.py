@@ -53,6 +53,13 @@ class LocalTransferRequest(models.Model):
         return "Local"
 
     @property
+    def get_date(self):
+        if self.date:
+            return self.date
+        else:
+            return self.date_initiated
+
+    @property
     def state(self):
         if self.verified:
             return "verified"

@@ -34,7 +34,7 @@ Transfer History
                     <th> Generated At </th>
                     <th> Verification State </th>
                     <th> Status </th>
-                    
+
                 </tr>
 
                 {%   for history in histories  %}
@@ -44,7 +44,7 @@ Transfer History
                     <td> {{history.type }} </td>
                     <td><i> {{ history.tx_ref | truncatechars:15 }} </i></td>
                     <td> {{ history.amount }} </td>
-                    <td><i> {{ history.date.date }}, {{ hsitory.date.time }} </i></td>
+                    <td><i> {{ history.get_date.date }}, {{ hsitory.get_date.time }} </i></td>
                     <td> {{history.state }} </td>
                     <td> <i style="font-weight: bolder;font-size: 1rem;color:grey"> {{ history.status }} </i></td>
                 </tr>
