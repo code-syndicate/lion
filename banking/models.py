@@ -32,7 +32,10 @@ class LocalTransferRequest(models.Model):
         ("Cancelled", "Cancelled"),
         ("Successful", "Successful"),
     ))
-    transaction_type = models.CharField(max_length = 25, default = 'debit', verbose_name = 'Transaction type', choices = (
+
+    date_initiated = models.DateTimeField(
+        auto_now_add=True, verbose_name='Date Initiated', null=True)
+    transaction_type = models.CharField(max_length=25, default='debit', verbose_name='Transaction type', choices=(
         ('credit', 'Credit'),
         ('debit', "Debit"),
     ))
@@ -82,6 +85,7 @@ class IntlTransferRequest(models.Model):
 
     tx_ref = models.UUIDField(default=uuid.uuid4, unique=True)
     date = models.DateTimeField(auto_now_add=True )
+    date_initiated = models.DateTimeField(auto_now_add=True, verbose_name = 'Date Initiated', null=True)
     transaction_type = models.CharField(max_length = 25, default = 'debit', verbose_name = 'Transaction type', choices = (
         ('credit', 'Credit'),
         ('debit', "Debit"),
