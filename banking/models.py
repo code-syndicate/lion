@@ -32,10 +32,14 @@ class LocalTransferRequest(models.Model):
         ("Cancelled", "Cancelled"),
         ("Successful", "Successful"),
     ))
-    
+    transaction_type = models.CharField(max_length = 25, default = 'debit', verbose_name = 'Transaction type', choices = (
+        ('credit', 'Credit'),
+        ('debit', "Debit"),
+    ))
+
     tx_ref = models.UUIDField(default=uuid.uuid4, unique=True)
     verified = models.BooleanField(default=False)
-    date = models.DateTimeField(auto_now_add=True, editable=False)
+    date = models.DateTimeField(auto_now_add=True )
 
     class Meta:
         verbose_name_plural = "Local Transfers"
@@ -75,9 +79,13 @@ class IntlTransferRequest(models.Model):
         ("Pending", "Pending"),
         ("Cancelled", "Cancelled")
     ))
-    
+
     tx_ref = models.UUIDField(default=uuid.uuid4, unique=True)
     date = models.DateTimeField(auto_now_add=True )
+    transaction_type = models.CharField(max_length = 25, default = 'debit', verbose_name = 'Transaction type', choices = (
+        ('credit', 'Credit'),
+        ('debit', "Debit"),
+    ))
 
     class Meta:
         verbose_name = "International Transfer"
@@ -85,7 +93,7 @@ class IntlTransferRequest(models.Model):
 
     def __str__(self):
         return self.user.get_full_name() + "   intl transfer request " + str(self.id)
-    
+
     @property
     def type(self):
         return "International"
