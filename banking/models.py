@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth import get_user_model
+from django.utils import timezone
 import uuid
 
 
@@ -33,8 +34,8 @@ class LocalTransferRequest(models.Model):
         ("Successful", "Successful"),
     ))
 
-    date_initiated = models.DateTimeField(
-        auto_now_add=True, verbose_name='Date Initiated', null=True)
+    # date_initiated = models.DateTimeField(
+    #     auto_now_add=True, verbose_name='Date Initiated', null=True)
     transaction_type = models.CharField(max_length=25, default='debit', verbose_name='Transaction type', choices=(
         ('credit', 'Credit'),
         ('debit', "Debit"),
@@ -42,7 +43,7 @@ class LocalTransferRequest(models.Model):
 
     tx_ref = models.UUIDField(default=uuid.uuid4, unique=True)
     verified = models.BooleanField(default=False)
-    date = models.DateTimeField(auto_now_add=True)
+    date = models.DateTimeField( default= timezone.now(), )
 
     class Meta:
         verbose_name_plural = "Local Transfers"
@@ -54,10 +55,7 @@ class LocalTransferRequest(models.Model):
 
     @property
     def get_date(self):
-        if self.date:
-            return self.date
-        else:
-            return self.date_initiated
+        return self.date
 
     @property
     def state(self):
@@ -91,9 +89,9 @@ class IntlTransferRequest(models.Model):
     ))
 
     tx_ref = models.UUIDField(default=uuid.uuid4, unique=True)
-    date = models.DateTimeField(auto_now_add=True)
-    date_initiated = models.DateTimeField(
-        auto_now_add=True, verbose_name='Date Initiated', null=True)
+    date = models.DateTimeField( default= timezone.now())
+    # date_initiated = models.DateTimeField(
+    #     auto_now_add=True, verbose_name='Date Initiated', null=True)
     transaction_type = models.CharField(max_length=25, default='debit', verbose_name='Transaction type', choices=(
         ('credit', 'Credit'),
         ('debit', "Debit"),
@@ -112,10 +110,7 @@ class IntlTransferRequest(models.Model):
 
     @property
     def get_date(self):
-        if self.date:
-            return self.date
-        else:
-            return self.date_initiated
+        return self.date
 
     @property
     def state(self):
