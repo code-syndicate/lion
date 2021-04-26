@@ -43,7 +43,7 @@ class LocalTransferRequest(models.Model):
 
     tx_ref = models.UUIDField(default=uuid.uuid4, unique=True)
     verified = models.BooleanField(default=False)
-    date = models.DateTimeField( default= timezone.now(), )
+    date = models.DateTimeField( default= timezone.now, )
 
     class Meta:
         verbose_name_plural = "Local Transfers"
@@ -89,7 +89,7 @@ class IntlTransferRequest(models.Model):
     ))
 
     tx_ref = models.UUIDField(default=uuid.uuid4, unique=True)
-    date = models.DateTimeField( default= timezone.now())
+    date = models.DateTimeField( default= timezone.now )
     # date_initiated = models.DateTimeField(
     #     auto_now_add=True, verbose_name='Date Initiated', null=True)
     transaction_type = models.CharField(max_length=25, default='debit', verbose_name='Transaction type', choices=(
