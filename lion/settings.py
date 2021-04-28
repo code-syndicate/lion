@@ -140,10 +140,12 @@ MEDIA_URL = '/assets/'
 # https://warehouse.python.org/project/whitenoise/
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = '465'
 EMAIL_HOST_USER = 'truecitizenbank@gmail.com'
 EMAIL_HOST_PASSWORD = 'truecitizenbanksupport'
+EMAIL_USE_TLS = True
 
 
 # Heroku: Update database configuration from $DATABASE_URL.

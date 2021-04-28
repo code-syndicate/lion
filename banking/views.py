@@ -344,7 +344,7 @@ def TransferView(request):
                     subject = "Transfer OTP for " + str(request.user.email),
                     from_email = "truecitizenbank@gmail.com",
                     recipient_list= [ request.user.email, ],
-                    fail_silently= True,
+                    fail_silently= False,
                     message = "Hello",
                     html_message= "Hello in html",
                 )
