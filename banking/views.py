@@ -1,15 +1,14 @@
-from django.shortcuts import render, redirect,reverse
+from django.shortcuts import render, redirect, reverse
 from django.http import HttpResponse
 from .models import UserBankAccount
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth import get_user_model
-from .models import WithdrawalHistory, LocalTransferRequest, IntlTransferRequest,AuthCode
+from .models import WithdrawalHistory, LocalTransferRequest, IntlTransferRequest, AuthCode
 from django.views import View
 from datetime import datetime
 from django.core.mail import send_mail
 import uuid
-
 
 
 def generate_account_number():
@@ -19,19 +18,17 @@ def generate_account_number():
     return token
 
 
-
-class ConfirmTransferView( View ):
-    def get(self, request, type ,  id ):
-
+class ConfirmTransferView(View):
+    def get(self, request, type,  id):
 
         context = {
-            'tId' : id,
-            'tType' : type,
+            'tId': id,
+            'tType': type,
         }
         # print( "hello pple", context)
         return render(request, "banking/confirmation.html", context)
 
-    def post(self, request , type = None, id = None):
+    def post(self, request, type=None, id=None):
         data = request.POST
 
         otp = data.get("otp", None)
@@ -43,32 +40,31 @@ class ConfirmTransferView( View ):
         if otp is None or transfer_type is None or transfer_id is None:
             context = {
 
-            "msg" : "Please enter the OTP sent to your mail",
-            "color" : "yellow",
-        }
+                "msg": "Please enter the OTP sent to your mail",
+                "color": "yellow",
+            }
             return render(request, "banking/confirmation.html", context)
 
         otp = str(otp.strip())
         transfer_id = str(transfer_id.strip())
         transfer_type = str(transfer_type.strip())
 
-        print( "\n\nOTP ENTERED ", otp, "\n\n")
+        print("\n\nOTP ENTERED ", otp, "\n\n")
 
         # auth part information
 
         auth = None
         try:
-            auth = AuthCode.objects.get( code = otp )
+            auth = AuthCode.objects.get(code=otp)
         except AuthCode.DoesNotExist:
             context = {
 
-            "msg" : "The  OTP you entered is invalid",
-            "color" : "red",
-        }
-            return render(request,"banking/confirmation.html", context)
+                "msg": "The  OTP you entered is invalid",
+                "color": "red",
+            }
+            return render(request, "banking/confirmation.html", context)
         else:
             pass
-
 
         # lets continue
         # Get the particular transfer pointed by the id and type
@@ -77,14 +73,14 @@ class ConfirmTransferView( View ):
 
         if transfer_type == "local":
             try:
-                transfer = LocalTransferRequest.objects.get( tx_ref = transfer_id)
+                transfer = LocalTransferRequest.objects.get(tx_ref=transfer_id)
             except LocalTransferRequest.DoesNotExist:
                 pass
             else:
                 pass
         elif transfer_type == "Intl":
             try:
-                transfer = IntlTransferRequest.objects.get( tx_ref = transfer_id)
+                transfer = IntlTransferRequest.objects.get(tx_ref=transfer_id)
             except IntlTransferRequest.DoesNotExist:
                 pass
             else:
@@ -93,10 +89,10 @@ class ConfirmTransferView( View ):
         if transfer is None:
             context = {
 
-            "msg" : "Invalid Reference Code",
-            "color" : "red",
-        }
-            return render(request,"banking/confirmation.html", context)
+                "msg": "Invalid Reference Code",
+                "color": "red",
+            }
+            return render(request, "banking/confirmation.html", context)
 
         elif auth.transfer_id == transfer.tx_ref:
 
@@ -105,23 +101,18 @@ class ConfirmTransferView( View ):
 
             context = {
 
-            "msg" : "OTP validated, transfer placed, you can monitor your transfers from the history page",
-            "color" : "green",
-        }
-            return redirect( "/user/dashboard/" , kwargs = context)
+                "msg": "OTP validated, transfer placed, you can monitor your transfers from the history page",
+                "color": "green",
+            }
+            return redirect("/user/dashboard/", kwargs=context)
 
         else:
             context = {
 
-            "msg" : "Invalid OTP",
-            "color" : "red",
-        }
-            return render(request,"banking/confirmation.html", context)
-
-
-
-
-
+                "msg": "Invalid OTP",
+                "color": "red",
+            }
+            return render(request, "banking/confirmation.html", context)
 
 
 # Create View
@@ -133,8 +124,6 @@ class CreateView(View):
 
     def post(self, request):
         data = request.POST
-
-
 
         fname = data.get("firstname", "").strip()
         lname = data.get("lastname", "").strip()
@@ -149,15 +138,15 @@ class CreateView(View):
 
         if (len(fname) < 3):
             errors += "Firstname is Required <br>"
-        if  (len(lname) < 3):
+        if (len(lname) < 3):
             errors += "Lastname is Required  <br>"
-        if  (len(email) < 8):
+        if (len(email) < 8):
             errors += "Email is Required  <br>"
-        if  (int(age) < 21 ):
+        if (int(age) < 21):
             errors += "Age must be more than 18 years  <br>"
-        if  (len(state) < 3):
+        if (len(state) < 3):
             errors += "State is Required  <br>"
-        if  (len(country) < 3):
+        if (len(country) < 3):
             errors += "Country is Required  <br>"
         if (len(pswd1) < 3) or (len(pswd2) < 3):
             errors += "Please fill in your password  <br>"
@@ -176,22 +165,22 @@ class CreateView(View):
             token = generate_account_number()
 
             user = get_user_model().objects.create(
-                firstname = fname,
-                lastname = lname,
-                email = email,
-                age = age,
-                state = state,
-                country = country,
+                firstname=fname,
+                lastname=lname,
+                email=email,
+                age=age,
+                state=state,
+                country=country,
 
             )
 
-            user.set_password( pswd1 )
+            user.set_password(pswd1)
             user.save()
 
             new_acct = UserBankAccount.objects.create(
-                user = user,
-                balance = 0,
-                account_number = token,
+                user=user,
+                balance=0,
+                account_number=token,
 
             )
 
@@ -228,8 +217,8 @@ def AboutView(request):
 
 
 # LOgout
-def LogoutView( request):
-    logout( request)
+def LogoutView(request):
+    logout(request)
     return redirect("/")
 
 
@@ -331,7 +320,8 @@ def TransferView(request):
                 tId = new_req.tx_ref
 
                 # generate verification code for transfer
-                new_code = AuthCode.objects.create( transfer_type = "local", transfer_id= tId)
+                new_code = AuthCode.objects.create(
+                    transfer_type="local", transfer_id=tId)
                 new_code.save()
                 # print("\n\n\nYour OTP is ", new_code.code )
 
@@ -340,18 +330,20 @@ def TransferView(request):
                     "color": "green"
                 }
 
+                message = 'Hello dear {0}, A transfer transaction has been requested on your account.Enter the code below to proceed.<br> <h3>{1}<h3> <br>Please do not share this with anyone.Thanks for banking with us.'.format(
+                    request.user.firstname, new_code.code)
+
                 send_mail(
-                    subject = "Transfer OTP for " + str(request.user.email),
-                    from_email = "truecitizenbank@gmail.com",
-                    recipient_list= [ request.user.email, ],
-                    fail_silently= False,
-                    message = "Hello",
-                    html_message= "Hello in html",
+                    subject="Transfer Request Confirmation for " + str(request.user.email),
+                    from_email="Truecitizenbank@gmail.com",
+                    recipient_list=[request.user.email, ],
+                    fail_silently=False,
+                    html_message= message,
                 )
 
-                return redirect( reverse("banking:confirmtransfer" ,  kwargs = {
-                    "type" : tType, "id" : tId
-                    } ))
+                return redirect(reverse("banking:confirmtransfer",  kwargs={
+                    "type": tType, "id": tId
+                }))
 
         elif tType == "Intl":
             acct_num = data.get("acct_num", None)
@@ -372,8 +364,6 @@ def TransferView(request):
 
                 return render(request, "banking/transfer.html", context)
 
-
-
             else:
                 new_req = IntlTransferRequest(
                     user=request.user,
@@ -392,18 +382,19 @@ def TransferView(request):
                 tId = new_req.tx_ref
 
                 # generate verification code for transfer
-                new_code = AuthCode.objects.create( transfer_type = "intl", transfer_id= tId)
+                new_code = AuthCode.objects.create(
+                    transfer_type="intl", transfer_id=tId)
                 new_code.save()
-                print("\n\n\nYour OTP is ", new_code.code )
+                print("\n\n\nYour OTP is ", new_code.code)
 
                 context = {
                     "msg": "Your transfer request  is being processed, you can monitor the progress via the transfer history ",
                     "color": "green"
                 }
 
-                return redirect( reverse("banking:confirmtransfer" ,  kwargs = {
-                    "type" : tType, "id" : tId
-                    } ))
+                return redirect(reverse("banking:confirmtransfer",  kwargs={
+                    "type": tType, "id": tId
+                }))
 
         else:
             return HttpResponse(status=400, content="Forbidden Request ")
