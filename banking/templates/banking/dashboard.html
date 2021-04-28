@@ -34,7 +34,7 @@
             <div style="background-color: {{color}};" class="w3-container ">
                 <span onclick="document.getElementById('id01').style.display='none'"
                     class="w3-button w3-display-topright">&times;</span>
-                <p class="w3-padding" style="color: darkslategray;font-weight: bold;"> {{ msg }} </p>
+                <p class="w3-padding" style="color: {% if text_color %} {{text_color}} {% else %} darkslategray {% endif %};font-weight: bold;"> {{ msg }} </p>
             </div>
         </div>
     </div>
@@ -60,9 +60,9 @@
                     style="display: block;" width="120px" height="120px">
             </div>
             <div class="w3-col s6 w3-bar">
-                <span style="display: inline-block; padding-top: 50px;">Welcome, <strong> 
+                <span style="display: inline-block; padding-top: 50px;">Welcome, <strong>
                     {{ request.user.get_full_name }}
-                        
+
                     </strong></span><br>
                 <!--- <a href="#" class="w3-bar-item w3-button"><i class="fa fa-bell"></i></a>
                 <a href="/user/dashboard/" title="Dashboard" class="w3-bar-item w3-button"><i
@@ -110,7 +110,7 @@
 
             <a style="font-weight: bolder;" class="w3-large w3-bar-item" onclick="switchList()" {% block transfer %}
                 href="/user/transfer" {% endblock transfer %}
-                
+
                 class="w3-bar-item w3-button w3-padding w3-text-blue-gray"><i class="fa fa-send fa-fw"></i> 
                 Transfer <i  id = "caret_" class="fa fa-caret-down fa-2x fa-fw w3-right"></i>  </a>
 
@@ -126,7 +126,7 @@
                 Log out </a>
 
 
-            
+
 
 
         </div>
@@ -197,12 +197,12 @@
             </div>
         </div>
 
-    
+
 
         <hr>
         <div class="w3-container">
 
-            sth here 
+            sth here
         </div>
     -->
 
@@ -265,10 +265,10 @@
         function w3_close() {
             mySidebar.style.display = "none";
             overlayBg.style.display = "none";
-            // document.getElementById("caret_").cl 
+            // document.getElementById("caret_").cl
         }
 
-        
+
 
         {% block script %}
 

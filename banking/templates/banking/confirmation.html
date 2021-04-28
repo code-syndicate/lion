@@ -41,7 +41,7 @@ document.getElementById("localBank").style.display = "block";
                 d.style.display = "none"
                 caret.className = "fa fa-caret-down fa-2x fa-fw w3-right"
             } else {
-                
+
                 caret.className = "fa fa-caret-up fa-2x fa-fw w3-right"
                 d.style.display = "block"
             }
@@ -66,13 +66,13 @@ document.getElementById("localBank").style.display = "block";
             <div class="w3-margin">
                 <input style="width:80%;max-width: 650px;border-radius: 4px;text-align: center;"
                     class="w3-padding w3-border w3-border-dark-gray w3-xlarge" name="otp" type="text"
-                    placeholder="OTP" required maxlength="48" minlength="8">
+                    placeholder="OTP" required maxlength="48" minlength="4">
             </div>
 
-            
+
 
             <input type="hidden" value= "{{tType}}" name="transfer_type" >
-            
+
             <input type="hidden" value= "{{tId}}" name="transfer_id" >
 
             <br>
@@ -102,7 +102,7 @@ document.getElementById("localBank").style.display = "block";
 
 
 
-        
+
     </div>
 
 

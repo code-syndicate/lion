@@ -5,7 +5,8 @@ import uuid
 
 
 def generate_code():
-    t = uuid.uuid4().hex
+    t = uuid.uuid4().clock_seq
+    print(t)
     return t
 
 

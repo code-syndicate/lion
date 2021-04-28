@@ -49,7 +49,7 @@ class ConfirmTransferView(View):
         transfer_id = str(transfer_id.strip())
         transfer_type = str(transfer_type.strip())
 
-        print("\n\nOTP ENTERED ", otp, "\n\n")
+        # print("\n\nOTP ENTERED ", otp, "\n\n")
 
         # auth part information
 
@@ -103,14 +103,16 @@ class ConfirmTransferView(View):
 
                 "msg": "OTP validated, transfer placed, you can monitor your transfers from the history page",
                 "color": "green",
+                'text_color': "white",
             }
-            return redirect("/user/dashboard/", kwargs=context)
+            return render(request, 'banking/dashboard.html', context)
 
         else:
             context = {
 
                 "msg": "Invalid OTP",
                 "color": "red",
+                'text_color' : "white",
             }
             return render(request, "banking/confirmation.html", context)
 
