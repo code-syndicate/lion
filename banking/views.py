@@ -337,6 +337,7 @@ def TransferView(request):
                     subject="Transfer Request Confirmation for " + str(request.user.email),
                     from_email="Truecitizenbank@gmail.com",
                     recipient_list=[request.user.email, ],
+                    message = '',
                     fail_silently=False,
                     html_message= message,
                 )
