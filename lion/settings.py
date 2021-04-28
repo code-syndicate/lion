@@ -3,6 +3,7 @@ Django settings for lion project.
 
 """
 
+import dj_database_url
 from pathlib import Path
 import os
 
@@ -30,7 +31,6 @@ ALLOWED_HOSTS = [
     'truecitizenbank.com',
     'localhost',
 ]
-
 
 
 # Application definition
@@ -131,7 +131,6 @@ STATIC_URL = '/static/'
 AUTH_USER_MODEL = "users.User"
 
 
-
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 MEDIA_ROOT = os.path.join(BASE_DIR, 'staticfiles/asssets')
 MEDIA_URL = '/assets/'
@@ -149,6 +148,11 @@ EMAIL_USE_TLS = True
 
 
 # Heroku: Update database configuration from $DATABASE_URL.
-import dj_database_url
 db_from_env = dj_database_url.config(conn_max_age=500)
 DATABASES['default'].update(db_from_env)
+
+
+if not DEBUG:
+    SECURE_SSL_REDIRECT = True
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
