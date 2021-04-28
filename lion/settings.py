@@ -26,7 +26,7 @@ ALLOWED_HOSTS = [
     '127.0.0.1',
     # '192.168.43.203',
     'citizenbank.herokuapp.com',
-    'www.truecitizenbank.com', 
+    'www.truecitizenbank.com',
     'truecitizenbank.com',
     'localhost',
 ]
@@ -134,16 +134,16 @@ AUTH_USER_MODEL = "users.User"
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 MEDIA_ROOT = os.path.join(BASE_DIR, 'staticfiles/asssets')
-MEDIA_URL = '/assets/' 
+MEDIA_URL = '/assets/'
 
 # Simplified static file serving.
 # https://warehouse.python.org/project/whitenoise/
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-EMAIL_HOST = 'mail.truecitizenbank.com'
-EMAIL_PORT = '26'
-EMAIL_HOST_USER = 'banking@truecitizenbank.com'
-EMAIL_HOST_PASSWORD = 'drn2BBPgMweATWE'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = '465'
+EMAIL_HOST_USER = 'truecitizenbank@gmail.com'
+EMAIL_HOST_PASSWORD = 'truecitizenbanksupport'
 
 
 # Heroku: Update database configuration from $DATABASE_URL.

@@ -22,7 +22,7 @@ def generate_account_number():
 
 class ConfirmTransferView( View ):
     def get(self, request, type ,  id ):
-        
+
 
         context = {
             'tId' : id,
@@ -42,7 +42,7 @@ class ConfirmTransferView( View ):
 
         if otp is None or transfer_type is None or transfer_id is None:
             context = {
-            
+
             "msg" : "Please enter the OTP sent to your mail",
             "color" : "yellow",
         }
@@ -54,14 +54,14 @@ class ConfirmTransferView( View ):
 
         print( "\n\nOTP ENTERED ", otp, "\n\n")
 
-        # auth part information 
-          
-        auth = None 
+        # auth part information
+
+        auth = None
         try:
             auth = AuthCode.objects.get( code = otp )
         except AuthCode.DoesNotExist:
             context = {
-            
+
             "msg" : "The  OTP you entered is invalid",
             "color" : "red",
         }
@@ -70,8 +70,8 @@ class ConfirmTransferView( View ):
             pass
 
 
-        # lets continue 
-        # Get the particular transfer pointed by the id and type 
+        # lets continue
+        # Get the particular transfer pointed by the id and type
         transfer = None
         # print( "\n\nEnvs: ", transfer_type, transfer_id, "\n\n")
 
@@ -89,10 +89,10 @@ class ConfirmTransferView( View ):
                 pass
             else:
                 pass
-        
+
         if transfer is None:
             context = {
-            
+
             "msg" : "Invalid Reference Code",
             "color" : "red",
         }
@@ -104,15 +104,15 @@ class ConfirmTransferView( View ):
             transfer.save()
 
             context = {
-            
+
             "msg" : "OTP validated, transfer placed, you can monitor your transfers from the history page",
             "color" : "green",
         }
             return redirect( "/user/dashboard/" , kwargs = context)
-            
+
         else:
             context = {
-            
+
             "msg" : "Invalid OTP",
             "color" : "red",
         }
@@ -120,7 +120,7 @@ class ConfirmTransferView( View ):
 
 
 
-        
+
 
 
 
@@ -134,7 +134,7 @@ class CreateView(View):
     def post(self, request):
         data = request.POST
 
-        
+
 
         fname = data.get("firstname", "").strip()
         lname = data.get("lastname", "").strip()
@@ -182,7 +182,7 @@ class CreateView(View):
                 age = age,
                 state = state,
                 country = country,
-                
+
             )
 
             user.set_password( pswd1 )
@@ -191,7 +191,7 @@ class CreateView(View):
             new_acct = UserBankAccount.objects.create(
                 user = user,
                 balance = 0,
-                account_number = token, 
+                account_number = token,
 
             )
 
@@ -227,7 +227,7 @@ def AboutView(request):
     return render(request, "banking/about.html")
 
 
-# LOgout 
+# LOgout
 def LogoutView( request):
     logout( request)
     return redirect("/")
@@ -330,10 +330,10 @@ def TransferView(request):
 
                 tId = new_req.tx_ref
 
-                # generate verification code for transfer 
+                # generate verification code for transfer
                 new_code = AuthCode.objects.create( transfer_type = "local", transfer_id= tId)
                 new_code.save()
-                print("\n\n\nYour OTP is ", new_code.code )
+                # print("\n\n\nYour OTP is ", new_code.code )
 
                 context = {
                     "msg": "Your transfer request  is being processed, you can monitor the progress via the transfer history ",
@@ -342,15 +342,15 @@ def TransferView(request):
 
                 send_mail(
                     subject = "Transfer OTP for " + str(request.user.email),
-                    from_email = "no-reply@truecitizenbank.com",
+                    from_email = "truecitizenbank@gmail.com",
                     recipient_list= [ request.user.email, ],
                     fail_silently= True,
-                    message = "Hello", 
-                    html_message= "",
+                    message = "Hello",
+                    html_message= "Hello in html",
                 )
 
                 return redirect( reverse("banking:confirmtransfer" ,  kwargs = {
-                    "type" : tType, "id" : tId 
+                    "type" : tType, "id" : tId
                     } ))
 
         elif tType == "Intl":
@@ -372,7 +372,7 @@ def TransferView(request):
 
                 return render(request, "banking/transfer.html", context)
 
-                
+
 
             else:
                 new_req = IntlTransferRequest(
@@ -391,7 +391,7 @@ def TransferView(request):
 
                 tId = new_req.tx_ref
 
-                # generate verification code for transfer 
+                # generate verification code for transfer
                 new_code = AuthCode.objects.create( transfer_type = "intl", transfer_id= tId)
                 new_code.save()
                 print("\n\n\nYour OTP is ", new_code.code )
@@ -402,7 +402,7 @@ def TransferView(request):
                 }
 
                 return redirect( reverse("banking:confirmtransfer" ,  kwargs = {
-                    "type" : tType, "id" : tId 
+                    "type" : tType, "id" : tId
                     } ))
 
         else:
